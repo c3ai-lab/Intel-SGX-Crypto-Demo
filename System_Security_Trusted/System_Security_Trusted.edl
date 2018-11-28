@@ -1,0 +1,27 @@
+enclave {
+    from "sgx_tstdc.edl" import *;
+
+    trusted {
+        /* define ECALLs here. */
+
+		public int esv_init([in, string] const char* sealed_data_file);
+
+		public int esv_seal_keys([in, string] const char* sealed_data_file);
+
+		public int esv_sign([in, string] const char* message, [out, size=sig_len] void* signature, size_t sig_len);
+
+		public int esv_verify([in, string] const char* message, [in, size=sig_len] void* signature, size_t sig_len);
+
+		public int esv_close();
+    };
+
+    untrusted {
+        /* define OCALLs here. */
+
+		void esv_write_data([in, string] const char* file_name, [in, size=len] const unsigned char* p_data, size_t len);
+
+		void esv_read_data([in, string] const char* file_name, [out] unsigned char** pp_data, [out] size_t* len);
+
+
+    };
+};
